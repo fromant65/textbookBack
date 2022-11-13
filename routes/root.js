@@ -5,7 +5,7 @@ const followerController = require("../controllers/followerController");
 
 router.get("/logout", (req, res) => {
   req.session.destroy();
-  res.redirect("/");
+  res.json({ logout: true });
 });
 
 module.exports = router;

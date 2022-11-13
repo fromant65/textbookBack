@@ -3,6 +3,7 @@ const router = express.Router();
 const loginController = require("../controllers/loginController");
 
 router.get("/", (req, res) => {
+  console.log(req.session);
   if (req.session.userid) {
     res.json({ loggedIn: true, user: req.session.userid });
   } else {
