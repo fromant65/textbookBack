@@ -1,9 +1,7 @@
 const Post = require("../model/Post");
 const User = require("../model/User");
-const { verifySession } = require("../middleware/verifySession");
 
 const handleNewPost = async (req, res) => {
-  verifySession(req, res);
   user = req.body.user;
   content = req.body.content;
   date = req.body.date;
@@ -20,7 +18,6 @@ const handleNewPost = async (req, res) => {
 };
 
 const showPosts = async (req, res) => {
-  verifySession(req, res);
   const userid = req.body.userid;
   try {
     const user = await User.findOne({ username: userid }).exec();
@@ -51,7 +48,6 @@ const showPosts = async (req, res) => {
 };
 
 const getPostId = async (req, res) => {
-  verifySession(req, res);
   user = req.body.user;
   content = req.body.content;
   date = req.body.date;
@@ -68,7 +64,6 @@ const getPostId = async (req, res) => {
 };
 
 const handleLike = async (req, res) => {
-  verifySession(req, res);
   const userid = req.body.userid;
   const postid = req.body.postid;
   const post = await Post.findById(postid).exec();
@@ -100,7 +95,6 @@ const handleLike = async (req, res) => {
 };
 
 const getLikes = async (req, res) => {
-  verifySession(req, res);
   const postid = req.body.postid;
   try {
     const post = await Post.findById(postid).exec();
@@ -112,7 +106,6 @@ const getLikes = async (req, res) => {
 };
 
 const getComentarios = async (req, res) => {
-  verifySession(req, res);
   const postid = req.params.postid;
   try {
     const post = await Post.findById(postid).exec();
@@ -124,7 +117,6 @@ const getComentarios = async (req, res) => {
 };
 
 const handleNewComment = async (req, res) => {
-  verifySession(req, res);
   const user = req.body.user;
   const content = req.body.content;
   const date = req.body.date;
@@ -167,7 +159,6 @@ const matchAutores = async (req, res) => {
 };
 
 const deletePost = async (req, res) => {
-  verifySession(req, res);
   const postid = req.body.postid;
   try {
     const post = await Post.findById(postid).exec();
@@ -197,7 +188,6 @@ const matchCommentAutores = async (req, res) => {
 };
 
 const deleteComment = async (req, res) => {
-  verifySession(req, res);
   const postid = req.body.postid;
   const commentid = req.body.commentid;
   try {
@@ -222,7 +212,6 @@ const deleteComment = async (req, res) => {
 };
 
 const editPost = async (req, res) => {
-  verifySession(req, res);
   const newContent = req.body.content;
   const postid = req.body.postid;
   try {
@@ -239,7 +228,6 @@ const editPost = async (req, res) => {
 };
 
 const editComment = async (req, res) => {
-  verifySession(req, res);
   const newContent = req.body.content;
   const postid = req.body.postid;
   const commentid = req.body.commentid;

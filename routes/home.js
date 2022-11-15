@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const path = require("path");
 const postController = require("../controllers/postController");
+const Post = require("../model/Post");
 
 //Para poder pedir la ruta /home, tenemos que estar logeados (tiene que haber una sesión activa)
 //Así que si estamos logeados, mostramos la página.
@@ -27,6 +28,12 @@ router.post("/publicar", postController.handleNewPost);
 //Si hacemos un post request a /home/publicaciones,
 //deberemos manejar el pedido para mostrar publicaciones desde el controlardor
 router.post("/publicaciones", postController.showPosts);
+
+router.get("/ultima-publicacion", async (req, res) => {
+  Post.findOne({ sort: { date: 1 } }, function (err, post) {
+    res.json({ post });
+  });
+});
 
 //Si hacemos un post request a /home/
 router.post("/postId", postController.getPostId);
