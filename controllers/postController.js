@@ -2,23 +2,28 @@ const Post = require("../model/Post");
 const User = require("../model/User");
 
 const handleNewPost = async (req, res) => {
-  user = req.body.user;
-  content = req.body.content;
-  date = req.body.date;
+  const user = req.body.user;
+  const content = req.body.content;
+  const date = req.body.date;
   try {
+    const lastPost = await Post.findOne().sort("-date").exec();
+    const orderId = lastPost.orderId + 1;
     const result = await Post.create({
       user: user,
       content: content,
       date: date,
+      orderId: orderId,
     });
-    res.status(201).json({ success: `${result}` });
+    res.status(201).json({ post: result });
   } catch (err) {
+    console.log(err.message);
     res.status(500).json({ message: err.message });
   }
 };
 
 const showPosts = async (req, res) => {
-  const userid = req.body.userid;
+  const userid = req.session.userid;
+  let id = req.body.postid;
   try {
     const user = await User.findOne({ username: userid }).exec();
     const following = [];
@@ -26,23 +31,24 @@ const showPosts = async (req, res) => {
       following.push(user.following[follow].username);
     }
     following.push(userid);
-    //El array following tiene los usernames de toda la gente que sigue el usuario y el mismo usuario
-    const lastDate = req.body.lastPostDate;
-    const firstDate = new Date(lastDate);
-    firstDate.setHours(firstDate.getHours() - 1);
-    //La siguiente funcion busca los posts entre la primera y la ultima fecha indicadas
-    //que por definicion de la función tienen 1 hora de diferencia.
-    //Ademas filtra solo los posts de los seguidores del usuario y el mismo usuario
-    Post.find({
-      date: { $gte: firstDate, $lt: lastDate },
-      user: { $in: following },
-    })
-      .lean()
-      .exec((err, posts) => {
-        if (!posts) res.status(204);
-        return res.status(200).json(posts);
-      });
+
+    //El siguiente loop busca publicaciones por id
+    //Cuando llega a 10 posts, devuelve el array de posts y la ultima id que encontró
+    const posts = [];
+    while (posts.length < 10 && id > 0) {
+      const post = await Post.findOne({
+        orderId: id,
+        user: { $in: following },
+      })
+        .lean()
+        .exec();
+      if (post) posts.push(post);
+      id--;
+    }
+    console.log(id);
+    res.json({ posts: posts, lastId: id + 1 });
   } catch (err) {
+    console.log(err.message);
     res.status(500).json({ message: err.message });
   }
 };

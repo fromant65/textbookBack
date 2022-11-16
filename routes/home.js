@@ -30,9 +30,12 @@ router.post("/publicar", postController.handleNewPost);
 router.post("/publicaciones", postController.showPosts);
 
 router.get("/ultima-publicacion", async (req, res) => {
-  Post.findOne({ sort: { date: 1 } }, function (err, post) {
-    res.json({ post });
-  });
+  //Devolvemos el último post hecho
+  Post.findOne()
+    .sort("-date")
+    .exec(function (err, post) {
+      res.json({ post });
+    });
 });
 
 //Si hacemos un post request a /home/
