@@ -34,6 +34,7 @@ app.use("/", require("./routes/rootChat"));
 app.use("/", require("./routes/rootFollowers"));
 app.use("/", require("./routes/rootSearch"));
 app.use("/", require("./routes/rootProfile"));
+app.use("/", require("./routes/rootForgotPassword"));
 app.use("/register", require("./routes/register"));
 app.use("/login", require("./routes/login"));
 app.use("/home", require("./routes/home"));

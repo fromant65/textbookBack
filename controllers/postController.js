@@ -45,7 +45,7 @@ const showPosts = async (req, res) => {
       if (post) posts.push(post);
       id--;
     }
-    console.log(id);
+    console.log("id: " + id);
     res.json({ posts: posts, lastId: id + 1 });
   } catch (err) {
     console.log(err.message);
