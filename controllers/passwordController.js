@@ -3,7 +3,6 @@ const User = require("../model/User");
 const { v4: uuidv4 } = require("uuid");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
-const frontEndLink = "http://localhost:3000";
 
 const transporter = nodemailer.createTransport({
   host: "smtp-mail.outlook.com", // hostname
@@ -19,6 +18,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendMail = async (req, res) => {
+  const frontEndLink = req.get("host");
   const username = req.body.username;
   const token = uuidv4();
   try {
@@ -43,12 +43,11 @@ const sendMail = async (req, res) => {
           .json({ message: `Hubo un error al enviar el mail: ${err}` });
       } else {
         console.log(info);
-        const req = await PasswordRequest.create({
+        const passReq = await PasswordRequest.create({
           username: username,
           token: token,
         });
-        const res = await req.json();
-        console.log(res);
+        console.log(passReq);
         res.status(200).json({ success: "email sent" });
       }
     });
