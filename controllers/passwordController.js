@@ -9,6 +9,9 @@ const transporter = nodemailer.createTransport({
   host: "smtp-mail.outlook.com", // hostname
   port: 587, // port for secure SMTP
   secureConnection: false,
+  tls: {
+    ciphers: "SSLv3",
+  },
   auth: {
     user: "textbook.back@hotmail.com",
     pass: "Admin.-1234",
@@ -20,7 +23,6 @@ const sendMail = async (req, res) => {
   const token = uuidv4();
   try {
     const user = await User.findOne({ username: username }).exec();
-    console.log(user);
     if (!user) return res.json({ message: "Username not found" });
 
     const mailOptions = {
@@ -41,11 +43,12 @@ const sendMail = async (req, res) => {
           .json({ message: `Hubo un error al enviar el mail: ${err}` });
       } else {
         console.log(info);
-        const passwordReq = await PasswordRequest.create({
+        const req = await PasswordRequest.create({
           username: username,
           token: token,
         });
-        console.log(passwordReq);
+        const res = await req.json();
+        console.log(res);
         res.status(200).json({ success: "email sent" });
       }
     });
