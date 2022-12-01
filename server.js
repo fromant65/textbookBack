@@ -26,11 +26,9 @@ app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "/public")));
 
 //Routes
 app.use("/", require("./routes/root"));
-app.use("/", require("./routes/rootChat"));
 app.use("/", require("./routes/rootFollowers"));
 app.use("/", require("./routes/rootSearch"));
 app.use("/", require("./routes/rootProfile"));

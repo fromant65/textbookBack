@@ -37,17 +37,14 @@ const sendMail = async (req, res) => {
     };
     transporter.sendMail(mailOptions, async (err, info) => {
       if (err) {
-        console.log(err);
         res
           .status(500)
           .json({ message: `Hubo un error al enviar el mail: ${err}` });
       } else {
-        console.log(info);
         const passReq = await PasswordRequest.create({
           username: username,
           token: token,
         });
-        console.log(passReq);
         res.status(200).json({ success: "email sent" });
       }
     });
