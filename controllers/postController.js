@@ -22,7 +22,7 @@ const handleNewPost = async (req, res) => {
 };
 
 const showPosts = async (req, res) => {
-  const userid = req.session.userid;
+  const userid = req.body.userid;
   let id = req.body.postid;
   try {
     const user = await User.findOne({ username: userid }).exec();
