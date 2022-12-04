@@ -1,13 +1,12 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const path = require("path");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
 const mongoose = require("mongoose");
 const connectDB = require("./config/dbConn");
-const sessions = require("express-session");
+const sessions = require("cookie-session");
 const PORT = process.env.PORT || 3500;
 const oneDay = 1000 * 60 * 60 * 24;
 const sessionOptions = {
