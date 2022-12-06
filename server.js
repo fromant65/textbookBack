@@ -12,7 +12,11 @@ const oneDay = 1000 * 60 * 60 * 24;
 const sessionOptions = {
   secret: process.env.ACCESS_TOKEN_SECRET,
   saveUninitialized: true,
-  cookie: { maxAge: oneDay },
+  cookie: {
+    maxAge: oneDay,
+    secure: process.env.PORT ? true : false,
+    sameSite: false,
+  },
   resave: false,
   name: "textbook-session",
 };

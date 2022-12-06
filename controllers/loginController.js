@@ -21,7 +21,7 @@ const handleLogin = async (req, res) => {
     session = req.session;
     session.userid = foundUser?.username || foundMail?.username;
     session.email = foundUser?.email || foundMail?.email;
-    console.log("Login session: ", session, req);
+    console.log("Login session: ", session, req.cookies);
     res.json({ login: true });
   } else {
     res
