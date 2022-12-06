@@ -14,8 +14,8 @@ const sessionOptions = {
   saveUninitialized: true,
   cookie: {
     maxAge: oneDay,
-    secure: process.env.PORT ? true : false,
-    sameSite: false,
+    secure: process.env.PORT ? true : false, //Si la app esta en un server (https) es secure, sino (http) no
+    sameSite: "none",
   },
   resave: false,
   name: "textbook-session",
