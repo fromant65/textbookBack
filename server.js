@@ -9,13 +9,16 @@ const connectDB = require("./config/dbConn");
 const sessions = require("express-session");
 const PORT = process.env.PORT || 3500;
 const oneDay = 1000 * 60 * 60 * 24;
+const os = require("os");
+const hostname = os.hostname();
 const sessionOptions = {
   secret: process.env.ACCESS_TOKEN_SECRET,
   saveUninitialized: true,
+  domain: hostname,
   cookie: {
     maxAge: oneDay,
     secure: process.env.PORT ? true : false, //Si la app esta en un server (https) es secure, sino (http) no
-    sameSite: "none",
+    sameSite: process.env.PORT ? "none" : false,
   },
   resave: false,
   name: "textbook-session",
