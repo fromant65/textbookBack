@@ -4,22 +4,12 @@ const path = require("path");
 const postController = require("../controllers/postController");
 const Post = require("../model/Post");
 
-//Para poder pedir la ruta /home, tenemos que estar logeados (tiene que haber una sesión activa)
-//Así que si estamos logeados, mostramos la página.
-//Si no, volvemos al login
-router.get("/", (req, res) => {
-  let session = req.session;
-  if (session.userid)
-    res.sendFile(path.join(__dirname, "..", "views", "home.html"));
-  else res.redirect("/login");
-});
-
 //Si pedimos la ruta getId, quiere decir que hemos solicitado la id del usuario.
 //Devolvemos la sesion para que el frontend se encargue de hacer un fetch con los datos de la publicación
 router.get("/getUserId", (req, res) => {
   let session = req.session;
   if (session.userid) res.json({ userid: session.userid });
-  else res.redirect("/login");
+  else res.json({ userid: null });
 });
 
 //Si hacemos un post request a /home/publicar, deberemos manejar la nueva publicación desde el controlador
