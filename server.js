@@ -6,7 +6,7 @@ const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
 const mongoose = require("mongoose");
 const connectDB = require("./config/dbConn");
-const sessions = require("cookie-session");
+const sessions = require("express-session");
 const PORT = process.env.PORT || 3500;
 const oneDay = 1000 * 60 * 60 * 24;
 const sessionOptions = {
@@ -14,6 +14,7 @@ const sessionOptions = {
   saveUninitialized: true,
   cookie: { maxAge: oneDay },
   resave: false,
+  name: "textbook-session",
 };
 
 //connect to Mongo DB

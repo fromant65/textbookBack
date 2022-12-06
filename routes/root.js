@@ -4,7 +4,7 @@ const path = require("path");
 const followerController = require("../controllers/followerController");
 
 router.get("/logout", (req, res) => {
-  req.session = null;
+  req.session.destroy();
   res.json({ logout: true });
 });
 

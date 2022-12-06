@@ -21,9 +21,8 @@ const handleLogin = async (req, res) => {
     session = req.session;
     session.userid = foundUser?.username || foundMail?.username;
     session.email = foundUser?.email || foundMail?.email;
-    //const roles=Object.values(foundUser.roles);
     console.log("Login session: ", session);
-    res.json({ login: true }); //.cookie("session", session);
+    res.json({ login: true });
   } else {
     res
       .json({ login: false, message: "The username and password don't match" })
